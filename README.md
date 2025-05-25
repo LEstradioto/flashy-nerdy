@@ -1,6 +1,9 @@
 # Flashy Nerdy 🤓
 
-A weekend project built for studying with flashcards (developed with AI assistance for rapid prototyping).
+
+https://github.com/user-attachments/assets/253fe56b-da2d-4a84-9f81-6a8fab0f5daa
+
+
 Flashcards are an effective tool for studying and memorizing concepts. Perfect for developers, students, and anyone who wants to learn efficiently.
 
 I got inspiration from [jwasham's flashcards](https://github.com/jwasham/computer-science-flash-cards).
@@ -29,6 +32,8 @@ You can check the existent ones on this repo at `/data/flashcards/`, don't forge
 - **Monaco Editor** - Code editing experience
 - **React Markdown** - Markdown rendering
 - **Prism.js** - Syntax highlighting
+
+A weekend project built for studying with flashcards (developed with AI assistance for rapid prototyping).
 
 ## Troubleshooting
 
