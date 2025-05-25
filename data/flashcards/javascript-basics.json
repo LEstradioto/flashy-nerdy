@@ -1,0 +1,36 @@
+{
+  "name": "JavaScript Basics",
+  "description": "Fundamental JavaScript concepts and syntax",
+  "cards": [
+    {
+      "id": "javascript-basics-1",
+      "front": "What are JavaScript data types?",
+      "back": "Primitive data types:\n\n- **string**: `'Hello'` or `\"World\"`\n- **number**: `42` or `3.14`\n- **boolean**: `true` or `false`\n- **undefined**: `undefined`\n- **null**: `null`\n- **symbol**: `Symbol('id')`\n- **bigint**: `123n`\n\nAnd one non-primitive type:\n- **object**: `{}`\n- **array**: `[]`\n- **function**: `function() {}`\n\nArray and Functions are `Objects` in the end"
+    },
+    {
+      "id": "javascript-basics-2",
+      "front": "What is the difference between `let`, `const`, and `var`?",
+      "back": "**var**:\n- Function-scoped or globally-scoped\n- Can be redeclared\n- Hoisted and initialized with `undefined`\n\n**let**:\n- Block-scoped\n- Cannot be redeclared in same scope\n- Hoisted but not initialized (temporal dead zone)\n\n**const**:\n- Block-scoped\n- Cannot be redeclared or reassigned\n- Must be initialized at declaration\n- Hoisted but not initialized (temporal dead zone)"
+    },
+    {
+      "id": "javascript-basics-3",
+      "front": "What is hoisting in JavaScript?",
+      "back": "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their scope during compilation.\n\n**Function declarations** are fully hoisted:\n```javascript\nconsole.log(myFunc()); // Works!\nfunction myFunc() { return 'Hello'; }\n```\n\n**var** declarations are hoisted but not initialized:\n```javascript\nconsole.log(x); // undefined (not error)\nvar x = 5;\n```\n\n**let/const** are hoisted but in temporal dead zone:\n```javascript\nconsole.log(y); // ReferenceError\nlet y = 10;\n```"
+    },
+    {
+      "id": "javascript-basics-4",
+      "front": "What are JavaScript closures?",
+      "back": "A closure is a function that has access to variables in its outer (enclosing) scope even after the outer function has returned.\n\n```javascript\nfunction outerFunction(x) {\n  // This is the outer function's scope\n  \n  function innerFunction(y) {\n    // Inner function has access to 'x'\n    console.log(x + y);\n  }\n  \n  return innerFunction;\n}\n\nconst myFunction = outerFunction(10);\nmyFunction(5); // Prints 15\n```\n\nThe inner function \"closes over\" the variable `x` from its outer scope."
+    },
+    {
+      "id": "javascript-basics-5",
+      "front": "What is the difference between `==` and `===` in JavaScript?",
+      "back": "**`==` (Equality operator)**:\n- Performs type coercion\n- Converts operands to same type before comparison\n\n**`===` (Strict equality operator)**:\n- No type coercion\n- Compares both value and type\n\nExamples:\n```javascript\n5 == '5'    // true (string converted to number)\n5 === '5'   // false (different types)\n\nnull == undefined   // true\nnull === undefined  // false\n\n0 == false    // true\n0 === false   // false\n```\n\n**Best practice**: Always use `===` unless you specifically need type coercion."
+    },
+    {
+      "id": "javascript-basics-6",
+      "front": "What are JavaScript arrow functions and how do they differ from regular functions?",
+      "back": "Arrow functions are a concise way to write functions introduced in ES6.\n\n**Syntax**:\n```javascript\n// Regular function\nfunction add(a, b) {\n  return a + b;\n}\n\n// Arrow function\nconst add = (a, b) => a + b;\n```\n\n**Key differences**:\n1. **`this` binding**: Arrow functions don't have their own `this`\n2. **No `arguments` object**\n3. **Cannot be used as constructors**\n4. **No hoisting** (function expressions)\n5. **Implicit return** for single expressions\n\n```javascript\nconst obj = {\n  name: 'John',\n  regular: function() { console.log(this.name); }, // 'John'\n  arrow: () => { console.log(this.name); } // undefined\n};\n```"
+    }
+  ]
+}
