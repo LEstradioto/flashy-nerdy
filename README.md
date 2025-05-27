@@ -9,9 +9,17 @@ Flashcards are an effective tool for studying and memorizing concepts. Perfect f
 I got inspiration from [jwasham's flashcards](https://github.com/jwasham/computer-science-flash-cards).
 I've kept realy simple to be able to deploy in any simple server (Coolify, Vercel, Netlifly, etc...). But it's not static, so you can't deploy it to a simple static server (actually you can if you want to read-only mode).
 
-And, basically you should put your flashcards at `/public/flashcards` as JSON files and update the `manifest.json`. Done, cards will load properly.
+## 📁 Flashcard Data Structure
 
-You can check the existent ones on this repo at `/data/flashcards/`, don't forget to add some after deploy or at dev on `public/flashcards` folder.
+- **`data/flashcards/`** - Example/seed flashcard data (tracked in git)
+- **`public/flashcards/`** - Runtime flashcard data (not tracked in git)
+
+The app reads from `public/flashcards/` at runtime. During build/deployment, example data from `data/flashcards/` is automatically copied to `public/flashcards/` if it doesn't exist.
+
+To add your own flashcards:
+1. Add JSON files to `data/flashcards/` (for version control)
+2. Update `data/flashcards/manifest.json` with your file names
+3. For Docker deployments, you can also edit directly in the app
 
 ## Features
 
@@ -35,6 +43,13 @@ You can check the existent ones on this repo at `/data/flashcards/`, don't forge
 
 A weekend project built for studying with flashcards (developed with AI assistance for rapid prototyping).
 
+## 🚀 Deployment
+
+Choose your preferred deployment method:
+
+- **Vercel or Netlify** - Quick serverless deployment (data resets on redeploy)
+- **Docker** - Full control with persistent data
+-
 ## Troubleshooting
 
 - If you have problems with statistics being wrong across datas, you should check the `manifest.json` file and make sure the `id` is unique for each card (between jsons files).

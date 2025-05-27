@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  flashy-nerdy:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - flashcards-data:/app/public/flashcards
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+volumes:
+  flashcards-data:
+    driver: local
