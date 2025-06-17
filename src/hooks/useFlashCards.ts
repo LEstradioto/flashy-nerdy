@@ -7,7 +7,7 @@ import {
   DEFAULT_STUDY_SETTINGS
 } from '../utils/fsrs';
 
-export function useFlashCards(): UseFlashCardsReturn {
+export function useFlashCards(enabled: boolean = true): UseFlashCardsReturn {
   const [flashCardSets, setFlashCardSets] = useState<FlashCardSet[]>([]);
   const [activeSetName, setActiveSetName] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -251,9 +251,11 @@ export function useFlashCards(): UseFlashCardsReturn {
     }
   };
 
+  // Only attempt to load data when the hook is enabled (i.e. user authenticated)
   useEffect(() => {
+    if (!enabled) return;
     loadFlashCardSets();
-  }, []);
+  }, [enabled]);
 
   // FSRS-specific functions
   const reviewCard = (cardId: string, rating: 'again' | 'hard' | 'good'): void => {

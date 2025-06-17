@@ -29,7 +29,7 @@ export default function Home() {
     getStudyStats,
     studySettings,
     updateStudySettings
-  } = useFlashCards();
+  } = useFlashCards(!authLoading && !!user);
 
   const [editingCard, setEditingCard] = useState<FlashCardType | null>(null);
   const [isCreating, setIsCreating] = useState(false);
