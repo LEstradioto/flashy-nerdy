@@ -4,10 +4,12 @@ services:
   flashy-nerdy:
     build: .
     volumes:
-      - flashcards-data:/app/public/flashcards
+      - flashcards-data:/app/data/flashcards
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+    # ports:
+    #   - 3000:3000
 
 volumes:
   flashcards-data:

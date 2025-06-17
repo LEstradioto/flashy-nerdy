@@ -11,15 +11,16 @@ I've kept realy simple to be able to deploy in any simple server (Coolify, Verce
 
 ## 📁 Flashcard Data Structure
 
-- **`data/flashcards/`** - Example/seed flashcard data (tracked in git)
-- **`public/flashcards/`** - Runtime flashcard data (not tracked in git)
+- **`data/flashcards/`** – Source decks in the repository that serve as _seed_ data. You can commit changes here if you want to ship new default decks.
+- **`data/flashcards/` (runtime)** – The same path is used by the app for _live_ reading & writing while you run it locally. We `.gitignore` this folder so your personal progress never ends up in version-control.
 
-The app reads from `public/flashcards/` at runtime. During build/deployment, example data from `data/flashcards/` is automatically copied to `public/flashcards/` if it doesn't exist.
+Docker images bundle the seed decks under `/app/default-flashcards` (read-only).  When the container starts for the very first time the entry-point copies them into `/app/data/flashcards`.  That directory is where the application reads and writes at runtime and it persists between container restarts.
 
-To add your own flashcards:
-1. Add JSON files to `data/flashcards/` (for version control)
-2. Update `data/flashcards/manifest.json` with your file names
-3. For Docker deployments, you can also edit directly in the app
+To add your own flashcards locally:
+1. Drop JSON files into `data/flashcards/` and update `manifest.json`.
+2. Or just use the UI – the app writes the files for you.  They will land in that same folder (ignored by git).
+
+Inside Docker you normally use the UI; the files are written to the volume at `/app/data/flashcards`.
 
 ## Features
 
@@ -45,11 +46,18 @@ A weekend project built for studying with flashcards (developed with AI assistan
 
 ## 🚀 Deployment
 
-Choose your preferred deployment method:
+### Docker (recommended)
 
-- **Vercel or Netlify** - Quick serverless deployment (data resets on redeploy)
-- **Docker** - Full control with persistent data
--
+```
+docker compose up -d
+```
+
+The compose file creates a named volume `flashcards-data` that is mounted to `/app/data/flashcards` inside the container. Your decks and progress survive image rebuilds and container restarts.
+
+### Vercel / Netlify (stateless)
+
+Serverless platforms work fine but remember that the filesystem is read-only – any changes you make through the UI will disappear after each deploy.  Stick to Docker if you need persistence without a database.
+
 ## Troubleshooting
 
 - If you have problems with statistics being wrong across datas, you should check the `manifest.json` file and make sure the `id` is unique for each card (between jsons files).

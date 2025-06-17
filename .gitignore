@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# flashcards - live user data (not tracked in git)
+# flashcards storage (private)
+/data/flashcards/
 /public/flashcards/

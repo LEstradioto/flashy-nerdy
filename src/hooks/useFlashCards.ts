@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { FlashCard, FlashCardWithFSRS, FSRSCard, FlashCardSet, FlashCardManifest, UseFlashCardsReturn, StudySettings, StudyStats } from '../types/flashcard';
 import {
   reviewCard as fsrsReviewCard,
@@ -31,11 +31,11 @@ export function useFlashCards(enabled: boolean = true): UseFlashCardsReturn {
   });
   const [fsrsData, setFsrsData] = useState<Map<string, FSRSCard>>(new Map());
 
-  const loadFlashCardSets = async (): Promise<void> => {
+  const loadFlashCardSets = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
       // Load the manifest file to get list of available flashcard sets
-      const manifestResponse = await fetch('/flashcards/manifest.json');
+      const manifestResponse = await fetch('/api/flashcards/manifest');
       let fileNames: string[] = [];
 
       if (manifestResponse.ok) {
@@ -49,7 +49,7 @@ export function useFlashCards(enabled: boolean = true): UseFlashCardsReturn {
       const sets: FlashCardSet[] = [];
       for (const fileName of fileNames) {
         try {
-          const setResponse = await fetch(`/flashcards/${fileName}.json`);
+          const setResponse = await fetch(`/api/flashcards/${fileName}`);
           if (setResponse.ok) {
             const setData = await setResponse.json();
 
@@ -84,14 +84,14 @@ export function useFlashCards(enabled: boolean = true): UseFlashCardsReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeSetName]);
 
   const loadFSRSData = async (fileNames: string[]): Promise<void> => {
     const newFsrsData = new Map<string, FSRSCard>();
 
     for (const fileName of fileNames) {
       try {
-        const fsrsResponse = await fetch(`/flashcards/${fileName}-fsrs.json`);
+        const fsrsResponse = await fetch(`/api/flashcards/${fileName}-fsrs`);
         if (fsrsResponse.ok) {
           const fsrsSetData = await fsrsResponse.json();
           // Add all FSRS cards to the map
@@ -255,7 +255,7 @@ export function useFlashCards(enabled: boolean = true): UseFlashCardsReturn {
   useEffect(() => {
     if (!enabled) return;
     loadFlashCardSets();
-  }, [enabled]);
+  }, [enabled, loadFlashCardSets]);
 
   // FSRS-specific functions
   const reviewCard = (cardId: string, rating: 'again' | 'hard' | 'good'): void => {

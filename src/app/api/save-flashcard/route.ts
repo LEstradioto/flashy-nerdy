@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing fileName or data' }, { status: 400 });
     }
 
-    const flashcardsDir = path.join(process.cwd(), 'public', 'flashcards');
+    const flashcardsDir = path.join(process.cwd(), 'data', 'flashcards');
 
     // Ensure directory exists
     if (!fs.existsSync(flashcardsDir)) {

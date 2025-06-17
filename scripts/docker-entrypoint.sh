@@ -5,23 +5,19 @@
 
 echo "🚀 Starting Flashy Nerdy..."
 
-# Source directory for default flashcards inside the image
-DATA_SRC="/app/data/flashcards"
-# Target directory in the volume
-DATA_DEST="/app/public/flashcards"
+# Source directory for default flashcards inside the image (read-only)
+DATA_SRC="/app/default-flashcards"
+# Target directory where runtime data is kept (mounted volume)
+DATA_DEST="/app/data/flashcards"
 
 # Ensure the destination directory exists
 mkdir -p "$DATA_DEST"
 
-# Check if the source directory exists and has content
-if [ -d "$DATA_SRC" ] && [ "$(ls -A "$DATA_SRC" 2>/dev/null)" ]; then
-    echo "📚 Synchronizing flashcards with example data..."
-    # Copy all files from source to destination.
-    # -r: recursive
-    # -u: update (only copy if source is newer than destination)
-    # This prevents overwriting user-saved data (like FSRS files) if they are newer.
-    cp -ru "$DATA_SRC"/* "$DATA_DEST"/
-    echo "✅ Flashcards synchronized successfully"
+# If destination is empty, seed it with example decks
+if [ -d "$DATA_SRC" ] && [ ! "$(ls -A "$DATA_DEST" 2>/dev/null)" ]; then
+    echo "📚 Initialising flashcards data directory with default decks..."
+    cp -r "$DATA_SRC"/* "$DATA_DEST"/
+    echo "✅ Flashcards initialised"
 else
     # If there's no source data, ensure a manifest exists so the app doesn't crash.
     if [ ! -f "$DATA_DEST/manifest.json" ]; then
@@ -30,8 +26,8 @@ else
     fi
 fi
 
-# Ensure proper permissions for the entire flashcards directory
-chown -R nextjs:nodejs "$DATA_DEST"
+# Ensure proper permissions for the entire flashcards directory (ignore if fails on non-root envs)
+chown -R nextjs:nodejs "$DATA_DEST" 2>/dev/null || true
 
 echo "🎯 Starting Next.js application..."
 

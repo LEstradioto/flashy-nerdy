@@ -35,11 +35,15 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Create the public/flashcards directory and set permissions
-RUN mkdir -p /app/public/flashcards
-RUN chown -R nextjs:nodejs /app/public/flashcards
-
+# Copy Next.js public assets (favicon, etc.)
 COPY --from=builder /app/public ./public
+
+# Copy default flashcards (read-only) into a separate location inside the image
+COPY --from=builder /app/data/flashcards /app/default-flashcards
+
+# Create runtime data directory that will be mounted as a volume
+RUN mkdir -p /app/data/flashcards && \
+    chown -R nextjs:nodejs /app/data/flashcards
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -54,9 +58,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Copy example data to a temporary location for the entrypoint script
-COPY --chown=nextjs:nodejs data /app/data
-
 USER nextjs
 
 EXPOSE 3000
@@ -66,7 +67,7 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 # Create volume for persistent flashcards data
-VOLUME ["/app/public/flashcards"]
+VOLUME ["/app/data/flashcards"]
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["node", "server.js"]

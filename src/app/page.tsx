@@ -306,7 +306,7 @@ export default function Home() {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [viewMode, editingCard, isCreating, cardsToShow.length, isCardFlipped, sessionStarted, studySettings.fsrsEnabled, isMobileMenuOpen]);
+  }, [viewMode, editingCard, isCreating, cardsToShow.length, isCardFlipped, sessionStarted, studySettings.fsrsEnabled, isMobileMenuOpen, handleCardFlip, handleCardReview, nextCard, prevCard]);
 
   // Show loading screen while checking authentication
   if (authLoading) {
