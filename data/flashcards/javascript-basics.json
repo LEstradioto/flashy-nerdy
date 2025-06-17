@@ -4,8 +4,8 @@
   "cards": [
     {
       "id": "javascript-basics-1",
-      "front": "What are JavaScript data types?",
-      "back": "Primitive data types:\n\n- **string**: `'Hello'` or `\"World\"`\n- **number**: `42` or `3.14`\n- **boolean**: `true` or `false`\n- **undefined**: `undefined`\n- **null**: `null`\n- **symbol**: `Symbol('id')`\n- **bigint**: `123n`\n\nAnd one non-primitive type:\n- **object**: `{}`\n- **array**: `[]`\n- **function**: `function() {}`\n\nArray and Functions are `Objects` in the end"
+      "front": "JavaScript data types?",
+      "back": "Primitive data types:\n\n- **string**: `'Hello'` or `\"World\"`\n- **number**: `42` or `3.14`\n- **boolean**: `true` or `false`\n- **undefined**: `undefined`\n- **null**: `null`\n- **symbol**: `Symbol('id')`\n- **bigint**: `123n`\n\nAnd non-primitive types:\n- **object**: `{}`\n- **array**: `[]`\n- **function**: `function() {}`\n\nArray and Functions are `Objects` in the end"
     },
     {
       "id": "javascript-basics-2",
@@ -25,12 +25,82 @@
     {
       "id": "javascript-basics-5",
       "front": "What is the difference between `==` and `===` in JavaScript?",
-      "back": "**`==` (Equality operator)**:\n- Performs type coercion\n- Converts operands to same type before comparison\n\n**`===` (Strict equality operator)**:\n- No type coercion\n- Compares both value and type\n\nExamples:\n```javascript\n5 == '5'    // true (string converted to number)\n5 === '5'   // false (different types)\n\nnull == undefined   // true\nnull === undefined  // false\n\n0 == false    // true\n0 === false   // false\n```\n\n**Best practice**: Always use `===` unless you specifically need type coercion."
+      "back": "**`==` (Loose equality operator)**:\n- Performs type coercion\n- Converts operands to same type before comparison\n\n**`===` (Strict equality operator)**:\n- No type coercion\n- Compares both value and type\n\nExamples:\n```javascript\n0 == '0'    // true (string '0' is coerced to number 0)\n0 === '0'   // false (different types)\n\nnull == undefined   // true\nnull === undefined  // false\n\n0 == false    // true\n0 === false   // false\n\n'' == 0     // true (empty string is coerced to 0)\n'' === 0     // false (different types)\n\n'1' == true  // true (string '1' is coerced to number 1, then to boolean)\n'1' === true  // false (different types)\n```\n\n**Best practice**: Always use `===` unless you specifically need type coercion."
     },
     {
       "id": "javascript-basics-6",
       "front": "What are JavaScript arrow functions and how do they differ from regular functions?",
       "back": "Arrow functions are a concise way to write functions introduced in ES6.\n\n**Syntax**:\n```javascript\n// Regular function\nfunction add(a, b) {\n  return a + b;\n}\n\n// Arrow function\nconst add = (a, b) => a + b;\n```\n\n**Key differences**:\n1. **`this` binding**: Arrow functions don't have their own `this`\n2. **No `arguments` object**\n3. **Cannot be used as constructors**\n4. **No hoisting** (function expressions)\n5. **Implicit return** for single expressions\n\n```javascript\nconst obj = {\n  name: 'John',\n  regular: function() { console.log(this.name); }, // 'John'\n  arrow: () => { console.log(this.name); } // undefined\n};\n```"
+    },
+    {
+      "id": "javascript-basics-1748361892983",
+      "front": "What main functions mutate data in Javascript?",
+      "back": "Here are the main JavaScript functions that mutate (modify) data:\r\n\r\n**Array Methods that Mutate:**\r\n1. `push()` - adds elements to the end\r\n2. `pop()` - removes last element\r\n3. `shift()` - removes first element\r\n4. `unshift()` - adds elements to the beginning\r\n5. `splice()` - adds/removes elements at any position\r\n6. `sort()` - sorts array in place\r\n7. `reverse()` - reverses array in place\r\n8. `fill()` - fills array with a value\r\n9. `copyWithin()` - copies array elements to another position\r\n\r\n**Object Methods that Mutate:**\r\n1. `Object.assign()` - copies properties from one object to another\r\n2. `Object.defineProperty()` - adds/modifies object properties\r\n3. `Object.defineProperties()` - adds/modifies multiple properties\r\n\r\n**Important Note:**\r\nMany array methods have non-mutating alternatives:\r\n- Instead of `push()/pop()` → use spread operator `[...array, newItem]`\r\n- Instead of `sort()` → use `[...array].sort()`\r\n- Instead of `reverse()` → use `[...array].reverse()`\r\n- Instead of `splice()` → use `slice()` with spread operator\r\n\r\nIt's generally considered better practice to use non-mutating methods when possible, as they make code more predictable and easier to debug, but sometimes mutating improves performance."
+    },
+    {
+      "id": "javascript-basics-1749498697132",
+      "front": "What is an immediately invoked function expression (IIFE)? Provide an example",
+      "back": "```javascript\r\n// This will cause a SyntaxError\r\nfunction test(msg) {\r\n    console.log(msg);\r\n}('hey')\r\n\r\n// This works\r\n(function test(msg) {\r\n    console.log(msg);\r\n})('hey');\r\n\r\n// This too (see parenthesis scope)\r\n(function test(msg) {\r\n    console.log(msg);\r\n}('hey'));\r\n```"
+    },
+    {
+      "front": "Write a JavaScript function to check if a string contains a specific substring",
+      "back": "```javascript\r\nfunction findSubstring(mainString, substring) {\r\n  return mainString.includes(substring);\r\n}\r\n\r\nconsole.log(findSubstring(\"Learn JavaScript\", \"JavaScript\")); // True - It contains JavaScript\r\n\r\nconsole.log(findSubstring(\"Learn JavaScript\", \"Python\")); // False - It doesn't contain Python\r\n\r\n// other ways (will return Boolean):\r\n\r\n// Using indexOf\r\nfunction findSubstring2(mainString, substring) {\r\n  return mainString.indexOf(substring) !== -1;\r\n}\r\n\r\n// Using search\r\nfunction findSubstring3(mainString, substring) {\r\n  return mainString.search(substring) !== -1;\r\n}\r\n\r\n// Using match\r\nfunction findSubstring4(mainString, substring) {\r\n  return mainString.match(substring) !== null;\r\n}\r\n\r\n// Using RegExp test\r\nfunction findSubstring5(mainString, substring) {\r\n  return new RegExp(substring).test(mainString);\r\n}\r\n\r\n```",
+      "id": "javascript-basics-1749564102753"
+    },
+    {
+      "front": "What will console print?\r\n\r\n```javascript\r\n\r\nlet a = 1;\r\nvar b = 2;\r\nconst c = 3;\r\n\r\nfunction outer(){\r\n\r\n\tconsole.log(a);\r\n\tconsole.log(b);\r\n\tconsole.log(c);\r\n\r\n\tlet a = 4;\r\n\tvar b = 5;\r\n\tconst c = 6;\r\n\r\n\tconsole.log(a);\r\n\tconsole.log(b);\r\n\tconsole.log(c);\r\n}\r\n\r\nouter();\r\n```",
+      "back": "ReferenceError trying to access let and const before init.",
+      "id": "javascript-basics-1749565181392"
+    },
+    {
+      "front": "What will console print?\r\n\r\n```javascript\r\n\r\nlet a = 1;\r\nvar b = 2;\r\nconst c = 3;\r\n\r\nfunction outer(){\r\n\r\n\t// console.log(a);\r\n\tconsole.log(b);\r\n\t// console.log(c);\r\n\r\n\tlet a = 4;\r\n\tvar b = 5;\r\n\tconst c = 6;\r\n\r\n\tconsole.log(a);\r\n\tconsole.log(b);\r\n\tconsole.log(c);\r\n}\r\n\r\nouter();\r\n```",
+      "back": "undefined\r\n4\r\n5\r\n6",
+      "id": "javascript-basics-1749565214570"
+    },
+    {
+      "front": "What will console print?\r\n\r\n```javascript\r\n\r\nlet a = 1;\r\nvar b = 2;\r\nconst c = 3;\r\n\r\nfunction outer(){\r\n\r\n\tlet a = 4;\r\n\tconst c = 6;\r\n\r\n\tconsole.log(a);\r\n\tconsole.log(b);\r\n\tconsole.log(c);\r\n}\r\n\r\nouter();\r\n```",
+      "back": "4\r\n2\r\n6",
+      "id": "javascript-basics-1749565244665"
+    },
+    {
+      "front": "How does JavaScript convert objects to primitives (ToPrimitive operation)?",
+      "back": "- Try obj.valueOf() - if it returns a primitive, use it\r\n- Try obj.toString() - if it returns a primitive, use it\r\n- If neither works, throw TypeError",
+      "id": "javascript-basics-1749566499918"
+    },
+    {
+      "front": "What does [1, {}, 3].toString() return?\r\n\r\nWhat does a regular object's toString() return?",
+      "back": "'1,[object Object],3' (joins elements with commas). Empty arrays return '' (empty string).\r\n\r\n '[object ObjectName]' (e.g., '[object Object]' for plain objects)",
+      "id": "javascript-basics-1749566523564"
+    },
+    {
+      "front": "In what scenarios does JavaScript coerce values?",
+      "back": "- +value (unary) → coerces to number\r\n- anything + string → coerces to string concatenation\r\n- Boolean contexts (if, !) → coerces to boolean\r\n- Other operators → coerces to number",
+      "id": "javascript-basics-1749566648907"
+    },
+    {
+      "front": "What are the 5 values that coerce to false?",
+      "back": "null, undefined, 0 (or -0), '' (empty string), false. Everything else is true.",
+      "id": "javascript-basics-1749566690716"
+    },
+    {
+      "front": "How do strings coerce to numbers?\r\n\r\n---\r\n\r\nHow do booleans coerce to numbers?\r\n\r\n---\r\n\r\nHow do null and undefined coerce to numbers?\r\n\r\n---\r\n\r\nHow do null and undefined coerce to strings?",
+      "back": "- Valid number strings → that number\r\n- Empty string '' → 0\r\n- Invalid strings → NaN\r\n\r\n---\r\n\r\ntrue → 1, false → 0\r\n\r\n---\r\n\r\nnull → 0, undefined → NaN\r\n\r\n---\r\n\r\nnull → 'null', undefined → 'undefined'",
+      "id": "javascript-basics-1749566805702"
+    },
+    {
+      "front": "What does `[] == 0` evaluate to and why?\r\n\r\n---\r\n\r\nWhy do `[] + {}` and `{} + []` give different results?",
+      "back": "true. `[]` converts to `''` (empty string), then `''` coerces to `0` for comparison.\r\n\r\n---\r\n\r\n- `[] + {}` → `\"[object Object]\"` (`{}` is an object)\r\n- `{} + []` → `0` (`{}` is treated as empty code block, so it's just `+[]`)",
+      "id": "javascript-basics-1749567114691"
+    },
+    {
+      "front": "Why doesn't `[] == 0`, `0 == '0'`, but `[] != '0'`?",
+      "back": "- `[] == 0`: `[]` → `''` → `0`\r\n- `0 == '0'`: `'0'` → `0`\r\n- `[] == '0'`: `[]` → `''`, but `''` != `'0'`",
+      "id": "javascript-basics-1749567233297"
+    },
+    {
+      "front": "Why does `parseInt(1/0, 19)` equal `18`?",
+      "back": "- `1/0` → `Infinity`\r\n- `Infinity` → `'Infinity'` (string coercion)\r\n- In base-19, `'I'` = 18, `'n'` is invalid\r\n- `parseInt` stops at first invalid character, returns `18`",
+      "id": "javascript-basics-1749567428056"
     }
   ]
 }
